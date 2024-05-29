@@ -1,6 +1,6 @@
 from pathlib import Path
 
-DATA_DIR = Path("./trellis_assessment_ds/")
+DATA_DIR = Path("./data/")
 MODEL_DIR = Path("./model/")
 
 GLOVE_MODEL_SIZE = "glove-wiki-gigaword-50"

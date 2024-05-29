@@ -40,6 +40,7 @@ train_data = lgb.Dataset(X_train, label=y_train_encoded)
 params = BASE_MODEL_PARAMS
 params["num_class"] = len(label_encoder.classes_)
 
+logging.info("Training model")
 model = lgb.train(params, train_data, 1000)
 logging.info("Model training completed")
 
