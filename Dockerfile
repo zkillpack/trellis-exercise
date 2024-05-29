@@ -24,14 +24,14 @@ ENV \
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        ca-certificates \
-        cmake \
-        build-essential \
-        gcc \
-        g++ \
-        curl \
-        git \
-        libomp-dev && \
+    ca-certificates \
+    cmake \
+    build-essential \
+    gcc \
+    g++ \
+    curl \
+    git \
+    libomp-dev && \
     # python environment
     curl -sL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o miniforge.sh && \
     /bin/bash miniforge.sh -f -b -p $CONDA_DIR && \
@@ -77,19 +77,14 @@ RUN chown -R appuser:appuser /app
 USER appuser
 
 RUN python -m nltk.downloader punkt
-
-
-
-# Copy the source code into the container.
 COPY . .
 
 RUN mkdir ./data
+RUN mkdir ./model
 RUN unzip trellis_assessment_ds.zip -x / -d ./data
 RUN ls
 RUN python setup.py
 
-# Expose the port that the application listens on.
 EXPOSE 8000
 
-# Run the application.
-CMD uvicorn 'app:app' --host=0.0.0.0 --port=8000
+CMD uvicorn 'app:app' --reload --host=0.0.0.0 --port=8000

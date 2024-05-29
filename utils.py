@@ -5,7 +5,6 @@ from typing import Iterator, List, Optional, Tuple
 import numpy as np
 from gensim.models.keyedvectors import KeyedVectors
 from nltk.tokenize import word_tokenize
-from tqdm import tqdm
 
 
 def load_texts(base_dir: Path) -> Iterator[Tuple[str, List[str]]]:
@@ -23,7 +22,7 @@ def compute_features(
 ) -> List[Tuple[str, np.ndarray]]:
     logging.info("Computing GloVe features")
     res = []
-    for folder, tokens in tqdm(data_loader):
+    for folder, tokens in data_loader:
         embeddings = [glove_model[word] for word in tokens if word in glove_model]
         if embeddings:
             avg_pool = np.mean(embeddings, axis=0)
