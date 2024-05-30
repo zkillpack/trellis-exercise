@@ -79,7 +79,6 @@ COPY . .
 RUN mkdir ./data
 RUN mkdir ./model
 RUN unzip -q trellis_assessment_ds.zip -x / -d ./data
-RUN ls
 RUN python setup.py
 
 EXPOSE 8000
