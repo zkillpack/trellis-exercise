@@ -17,8 +17,6 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-
-
 class Document(BaseModel):
     document_text: str
 
@@ -50,17 +48,18 @@ app = FastAPI(lifespan=lifespan)
 @app.post("/classify_document")
 async def classify_text(doc: Document):
     features = featurize_text(doc.document_text, model['glove_model'])
-    if features is not None:
-        probas = model['classifier'].predict_proba(features.reshape(1, -1))
-        if np.max(probas) > OTHER_THRESHOLD:
-            label = model['label_encoder'].inverse_transform(
-                np.argmax(probas, keepdims=1).ravel()
-            ).item()
-            return {"label": label, "message": "Classification successful"}
-        else:
-            return {
-                "label": "other",
-                "message": "No strong match to pre-existing document classes",
-            }
+    if not features:
+        raise HTTPException(status_code=400, detail="Unable to featurize input text")
+
+    probas = model['classifier'].predict_proba(features.reshape(1, -1))
+    if np.max(probas) > OTHER_THRESHOLD:
+        label = model['label_encoder'].inverse_transform(
+            np.argmax(probas, keepdims=1).ravel()
+        ).item()
+        return {"label": label, "message": "Classification successful"}
     else:
-        raise HTTPException(status_code=400, detail="bad thing happen!")
+        return {
+            "label": "other",
+            "message": "No strong match to pre-existing document classes",
+        }
+    
