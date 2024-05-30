@@ -10,6 +10,7 @@ This will:
 * Log model metrics to the Docker build log (accuracy, precision, recall, F1 score)
 
 The trained model will be built into the image, so subsequent runs can be invoked via
+
 `docker compose up`
 
 To test the model:
@@ -21,8 +22,16 @@ curl -X POST "http://localhost:8000/classify_document" \
 {"label":"other","message":"No strong match to pre-existing document classes"}
 ```
 
-```curl -X POST "http://localhost:8000/classify_document" \
+```
+curl -X POST "http://localhost:8000/classify_document" \
      -H "Content-Type: application/json" \
      -d '{"document_text": "I invented a new kind of hot sauce taco that is delicious."}'
 {"label":"food","message":"Classification successful"}
+```
+
+```
+curl -X POST "http://localhost:8000/classify_document" \
+     -H "Content-Type: application/json" \
+     -d '{"document_text": "awf8e9y39ryandsfjksf"}'
+{"detail":"Unable to featurize input text"}
 ```
