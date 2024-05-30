@@ -48,7 +48,7 @@ app = FastAPI(lifespan=lifespan)
 @app.post("/classify_document")
 async def classify_text(doc: Document):
     features = featurize_text(doc.document_text, model['glove_model'])
-    if not features:
+    if features is None:
         raise HTTPException(status_code=400, detail="Unable to featurize input text")
 
     probas = model['classifier'].predict_proba(features.reshape(1, -1))
