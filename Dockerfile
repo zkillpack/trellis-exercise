@@ -14,7 +14,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 
 ENV PYTHONUNBUFFERED=1
 
-# from https://github.com/microsoft/LightGBM/blob/master/docker/dockerfile-python
+# copied from https://github.com/microsoft/LightGBM/blob/master/docker/dockerfile-python
 
 ENV \
     DEBIAN_FRONTEND=noninteractive \
@@ -68,9 +68,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
-
-
-# Switch to the non-privileged user to run the application.
 RUN apt-get -y install unzip 
 RUN chown -R appuser:appuser /app
 
@@ -81,7 +78,7 @@ COPY . .
 
 RUN mkdir ./data
 RUN mkdir ./model
-RUN unzip trellis_assessment_ds.zip -x / -d ./data
+RUN unzip -q trellis_assessment_ds.zip -x / -d ./data
 RUN ls
 RUN python setup.py
 
