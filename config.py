@@ -8,7 +8,7 @@ MODEL_DIR = Path("./model/")
 GLOVE_MODEL_SIZE = "glove-wiki-gigaword-50"
 
 # Probability threshold below which we return 'other'
-OTHER_THRESHOLD = 0.95
+OTHER_THRESHOLD = 0.85
 
 # LightGBM params
 BASE_MODEL_PARAMS = {
