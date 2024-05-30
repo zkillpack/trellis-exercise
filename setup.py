@@ -25,9 +25,9 @@ with open(os.devnull, "w") as null:
 logging.info("GloVe model loaded")
 
 data_loader = load_texts(DATA_DIR)
-features_data = compute_features(data_loader, glove_model)
+features = compute_features(data_loader, glove_model)
 
-df = pd.DataFrame(features_data, columns=["label", "features"])
+df = pd.DataFrame(features, columns=["label", "features"])
 df = df[df["label"] != "other"]
 X = pd.DataFrame(df["features"].tolist())
 y = df["label"]

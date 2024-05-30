@@ -13,12 +13,14 @@ from gensim.models.keyedvectors import KeyedVectors
 from sklearn.preprocessing import LabelEncoder
 from contextlib import asynccontextmanager
 import logging
+from pydantic import Field 
+
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 class Document(BaseModel):
-    document_text: str
+    document_text: str = Field(title='The text of the document to be classified', min_length=1)
 
 model = {}
 
@@ -30,7 +32,9 @@ def load_model():
         label_encoder = joblib.load(label_encoder_file)
         classifier = joblib.load(model_file)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f'Error loading model: {str(e)}')
+        msg = f'Error loading model: {str(e)}'
+        logging.error(msg)
+        raise HTTPException(status_code=500, detail=msg)
 
     return glove_model, label_encoder, classifier
 
