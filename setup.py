@@ -50,7 +50,7 @@ train_data = lgb.Dataset(X_train, label=y_train_encoded)
 def objective(trial):
     global model
     trial_params = {
-        "n_estimators": 100,
+        "n_estimators": 200,
         "learning_rate": trial.suggest_float("learning_rate", 1e-3, 0.1, log=True),
         "num_leaves": trial.suggest_int("num_leaves", 2, 2**10),
         "lambda_l1": trial.suggest_float("lambda_l1", 1e-8, 10.0, log=True),
