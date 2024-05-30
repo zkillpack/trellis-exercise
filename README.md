@@ -1,6 +1,6 @@
 To train the model and launch the server, run:
 
-`docker compose --progress plain up  --build  2>&1 | tee build.log
+`docker compose --progress plain up  --build  2>&1 | tee build.log`
 
 This will:
 
